@@ -1,0 +1,48 @@
+// font----
+$base: 16px;
+//@media----
+$mobile: 480px;
+$tablet: 760px;
+$desktop: 1200px;
+
+$bps: (
+  'mobile': $mobile,
+  'tablet': $tablet,
+  'desktop': $desktop,
+);
+
+// Mixin to override styles depending on the viewport.
+// Use it as @include from(desktop) { ...your styles }.
+@mixin from($media) {
+  $min-width-bp: (map-get($bps, $media) or $media);
+
+  @media only screen and (min-width: $min-width-bp) {
+    @content;
+  }
+}
+
+@mixin upto($media) {
+  $max-width-bp: (map-get($bps, $media) or $media) - 1;
+
+  @media only screen and (max-width: $max-width-bp) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media screen and (max-width: $mobile) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media screen and (min-width: $mobile + 1) and (max-width: $tablet) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media screen and (min-width: $tablet + 1) {
+    @content;
+  }
+}
